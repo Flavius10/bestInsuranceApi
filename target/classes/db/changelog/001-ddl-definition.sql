@@ -3,7 +3,7 @@
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE Countries(
+CREATE TABLE IF NOT EXISTS Countries(
 
     country_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     name VARCHAR(64) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE Countries(
 
 );
 
-CREATE TABLE States(
+CREATE TABLE IF NOT EXISTS States(
 
     state_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     name VARCHAR(64) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE States(
 
 );
 
-CREATE TABLE Cities(
+CREATE TABLE IF NOT EXISTS Cities(
 
     city_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     country_id UUID NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE Cities(
 
 );
 
-CREATE TABLE Addresses(
+CREATE TABLE IF NOT EXISTS Addresses(
 
     address_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     country_id UUID NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE Addresses(
 
 );
 
-CREATE TABLE Customers(
+CREATE TABLE IF NOT EXISTS Customers(
 
     customer_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     name VARCHAR(64) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE Customers(
 
 );
 
-CREATE TABLE Coverages(
+CREATE TABLE IF NOT EXISTS Coverages(
 
     coverage_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     name VARCHAR(64) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE Coverages(
 
 );
 
-CREATE TABLE Policies(
+CREATE TABLE IF NOT EXISTS Policies(
 
     policy_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     name VARCHAR(16) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE Policies(
 
 );
 
-CREATE TABLE Policies_Coverages(
+CREATE TABLE IF NOT EXISTS Policies_Coverages(
 
     coverage_id UUID NOT NULL,
     policy_id UUID NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE Policies_Coverages(
 
 );
 
-CREATE TABLE Subscriptions(
+CREATE TABLE IF NOT EXISTS Subscriptions(
 
     policy_id UUID NOT NULL,
     customer_id UUID NOT NULL,
