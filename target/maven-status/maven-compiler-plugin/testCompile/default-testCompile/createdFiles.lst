@@ -1,0 +1,3 @@
+com\bestinsurance\api\BestInsuranceApiApplicationTests.class
+com\bestinsurance\api\jpa\CustomerJPATest.class
+com\bestinsurance\api\jpa\PolicyJPATest.class
