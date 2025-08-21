@@ -16,6 +16,7 @@ services:
       - BPL_DEBUG_ENABLED=true
       - BPL_DEBUG_PORT=5005
       - BPL_DEBUG_SUSPEND=false
+      - DATALOADER_LOADSAMPLE=false
 
   db:
     image: 'postgres:15.4-alpine'

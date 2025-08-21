@@ -30,6 +30,9 @@ public class Customer {
     @Column(nullable = false, length = 320)
     private String email;
 
+    @Column(length = 20)
+    private String telephone_number;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private OffsetDateTime created;
@@ -106,6 +109,14 @@ public class Customer {
 
     public void setEmail(final String email){
         this.email = email;
+    }
+
+    public String getTelephone_number(){
+        return this.telephone_number;
+    }
+
+    public void setTelephone_number(final String telephone_number){
+        this.telephone_number = telephone_number;
     }
 
     public OffsetDateTime getCreated(){

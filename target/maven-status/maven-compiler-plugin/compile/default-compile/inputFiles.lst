@@ -1,5 +1,6 @@
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\BestInsuranceApiApplication.java
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\config\DomainConfig.java
+C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\config\ServiceConfig.java
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\domain\Address.java
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\domain\City.java
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\domain\Country.java
@@ -17,3 +18,4 @@ C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\a
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\repos\PolicyRepository.java
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\repos\StateRepository.java
 C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\repos\SubscriptionRepository.java
+C:\Folders\Informatica\Spring\bestInsuranceApi\src\main\java\com\bestinsurance\api\services\SampleDataLoader.java
