@@ -32,9 +32,9 @@ public class PolicyJPATest {
 
         Policy created_policy = policyRepository.save(policy);
 
-//        Assertions.assertNotNull(created_policy.getPolicy_id());
-//        Assertions.assertNotNull(created_policy.getCreated());
-//        Assertions.assertNotNull(created_policy.getUpdated());
+        Assertions.assertNotNull(created_policy.getPolicy_id());
+        Assertions.assertNotNull(created_policy.getCreated());
+        Assertions.assertNotNull(created_policy.getUpdated());
     }
 
 }

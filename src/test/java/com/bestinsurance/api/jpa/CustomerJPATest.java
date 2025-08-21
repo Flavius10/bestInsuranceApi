@@ -31,15 +31,15 @@ public class CustomerJPATest {
         /// saving the customer for the test
         Customer created_customer = customerRepository.save(customer);
 
-//        Assertions.assertNotNull(created_customer.getCustomer_id());
-//        Assertions.assertNotNull(created_customer.getCreated());
-//        Assertions.assertNotNull(created_customer.getUpdated());
+        Assertions.assertNotNull(created_customer.getCustomer_id());
+        Assertions.assertNotNull(created_customer.getCreated());
+        Assertions.assertNotNull(created_customer.getUpdated());
 
         Customer found_customer = customerRepository.findById(created_customer.getCustomer_id()).get();
-//        Assertions.assertEquals(found_customer.getCustomer_id(), created_customer.getCustomer_id());
-//        Assertions.assertEquals(found_customer.getName(), created_customer.getName());
-//        Assertions.assertEquals(found_customer.getAddress(), created_customer.getAddress());
-//        Assertions.assertEquals(found_customer.getSurname(), created_customer.getSurname());
-//        Assertions.assertEquals(found_customer.getCreated(), created_customer.getCreated());
+        Assertions.assertEquals(found_customer.getCustomer_id(), created_customer.getCustomer_id());
+        Assertions.assertEquals(found_customer.getName(), created_customer.getName());
+        Assertions.assertEquals(found_customer.getAddress(), created_customer.getAddress());
+        Assertions.assertEquals(found_customer.getSurname(), created_customer.getSurname());
+        Assertions.assertEquals(found_customer.getCreated(), created_customer.getCreated());
     }
 }
