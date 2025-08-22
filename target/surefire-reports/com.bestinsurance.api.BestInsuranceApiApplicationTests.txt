@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.bestinsurance.api.BestInsuranceApiApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.80 s -- in com.bestinsurance.api.BestInsuranceApiApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 23.42 s -- in com.bestinsurance.api.BestInsuranceApiApplicationTests

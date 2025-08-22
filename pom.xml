@@ -96,6 +96,7 @@
             <artifactId>postgresql</artifactId>
             <version>1.17.6</version>
         </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
