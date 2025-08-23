@@ -1,10 +1,13 @@
 package com.bestinsurance.api.rest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,7 +23,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String rootErrorHandler(Exception ex) {
-        return ex.getClass().toString() + ": " + ex.getMessage();
+        return ex.getClass() + ": " + ex.getMessage();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -32,6 +35,6 @@ public class ApiExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String illegalArgumentHandler(IllegalArgumentException ex) {
-        return ex.getClass().toString() + ": " + ex.getMessage();
+        return ex.getClass() + ": " + ex.getMessage();
     }
 }

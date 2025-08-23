@@ -146,18 +146,31 @@ public class CustomerController implements CrudController<CustomerCreation, Cust
             customerViewDTO.setSurname(customer.getSurname());
             customerViewDTO.setEmail(customer.getEmail());
 
-            AddressView addressDTO = new AddressView();
-            addressDTO.setId(customer.getAddress().getAddress_id().toString());
-            addressDTO.setAddress(customer.getAddress().getAddress());
-            addressDTO.setPostal_code(customer.getAddress().getPostal_code());
-            Address address = customer.getAddress();
-            addressDTO.setCountry(new CountryView(address.getCountry().getCountry_id().toString(),
-                    address.getCountry().getName()));
-            addressDTO.setState(new StateView(address.getState().getState_id().toString(),
-                    address.getState().getName()));
-            addressDTO.setCity(new CityView(address.getCity().getCity_id().toString(), address.getCity().getName()));
+            if (customer.getAddress() != null){
 
-            customerViewDTO.setAddress(addressDTO);
+                AddressView addressDTO = new AddressView();
+                addressDTO.setId(customer.getAddress().getAddress_id().toString());
+                addressDTO.setAddress(customer.getAddress().getAddress());
+                addressDTO.setPostal_code(customer.getAddress().getPostal_code());
+                Address address = customer.getAddress();
+
+                if (address.getCountry() != null){
+                    addressDTO.setCountry(new CountryView(address.getCountry().getCountry_id().toString(),
+                            address.getCountry().getName()));
+                }
+
+                if (address.getState() != null){
+                    addressDTO.setState(new StateView(address.getState().getState_id().toString(),
+                            address.getState().getName()));
+                }
+
+                if (address.getCity() != null){
+                    addressDTO.setCity(new CityView(address.getCity().getCity_id().toString(), address.getCity().getName()));
+                }
+
+                customerViewDTO.setAddress(addressDTO);
+            }
+
             return customerViewDTO;
         };
     }
