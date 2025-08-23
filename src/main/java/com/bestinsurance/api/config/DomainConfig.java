@@ -3,6 +3,7 @@ package com.bestinsurance.api.config;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
+import com.bestinsurance.api.repos.*;
 import com.bestinsurance.api.services.SampleDataLoader;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -30,7 +31,19 @@ public class DomainConfig {
     @Bean
     @DependsOn("liquibase")
     @ConditionalOnProperty(prefix = "dataloader", name = "loadsample", havingValue = "true")
-    public SampleDataLoader sampleDataLoader(){
-        return new SampleDataLoader();
+    public SampleDataLoader sampleDataLoader(
+            CustomerRepository customerRepository,
+            CityRepository cityRepository,
+            CoverageRepository coverageRepository,
+            PolicyRepository policyRepository,
+            SubscriptionRepository subscriptionRepository) {
+
+        return new SampleDataLoader(
+                customerRepository,
+                cityRepository,
+                coverageRepository,
+                policyRepository,
+                subscriptionRepository
+        );
     }
 }

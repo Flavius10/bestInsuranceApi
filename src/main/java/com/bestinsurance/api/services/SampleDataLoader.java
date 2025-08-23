@@ -4,30 +4,37 @@ import com.bestinsurance.api.domain.*;
 import com.bestinsurance.api.repos.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
 public class SampleDataLoader {
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private CityRepository cityRepository;
-    @Autowired
-    private CoverageRepository coverageRepository;
-    @Autowired
-    private PolicyRepository policyRepository;
-    @Autowired
-    private SubscriptionRepository subscriptionRepository;
+
+    private final CustomerRepository customerRepository;
+    private final CityRepository cityRepository;
+    private final CoverageRepository coverageRepository;
+    private final PolicyRepository policyRepository;
+    private final SubscriptionRepository subscriptionRepository;
+
+    public SampleDataLoader(CustomerRepository customerRepository,
+                            CityRepository cityRepository,
+                            CoverageRepository coverageRepository,
+                            PolicyRepository policyRepository,
+                            SubscriptionRepository subscriptionRepository) {
+        this.customerRepository = customerRepository;
+        this.cityRepository = cityRepository;
+        this.coverageRepository = coverageRepository;
+        this.policyRepository = policyRepository;
+        this.subscriptionRepository = subscriptionRepository;
+    }
 
     @PostConstruct
     public void populateDatabase() {
         long count = customerRepository.count();
         if (count == 0) {
             List<Customer> customers = createCustomers();
-            System.out.println("Customers created!");
             List<Policy> policies = createPolicies();
             createSubscriptions(customers, policies);
         }
@@ -37,36 +44,31 @@ public class SampleDataLoader {
         String[] names = {"William", "Elizabeth", "James", "Mary", "John", "Sarah", "Michael", "Emily", "David", "Jessica"};
         String[] surnames = {"Smith", "Johnson", "Brown", "Davis", "Garcia", "Wilson", "Jones", "Jackson", "Anderson", "Harris"};
         String[] streetNames = {"Oak", "Maple", "Pine", "Cedar", "Elm", "Main", "High", "Park", "Washington", "Adams"};
-        String[] cityIds = {
-                "45576d7c-8d84-4422-9440-19ef80fa16f3",
+        String[] cityIds = {"45576d7c-8d84-4422-9440-19ef80fa16f3",
                 "91f360d5-811b-417c-a202-f5ba4b34b895",
                 "144b05b6-ebf6-43a8-836d-0998c2c20a3c",
                 "74716a04-d538-4441-84bf-7c41470778ca",
-                "eb5e9505-8580-4857-9195-6bee0324ac0f"
-        };
+                "eb5e9505-8580-4857-9195-6bee0324ac0f"};
 
         Random random = new Random();
         List<Customer> customers = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             Customer customer = new Customer();
             customer.setName(names[i]);
             customer.setSurname(surnames[i]);
             customer.setEmail(customer.getName().toLowerCase() + "." + customer.getSurname().toLowerCase() + "@example.com");
-            customer.setTelephone_number(
-                    String.format("(%d)%d-%04d", random.nextInt(900) + 100, random.nextInt(900) + 100, random.nextInt(10000))
-            );
-
-            City city = findCity(cityIds[i / 2]);
-
+            customer.setTelephone_number(String.format("(%d)%d-%04d", random.nextInt(900) + 100, random.nextInt(900) + 100, random.nextInt(10000)));
+            City city = findCity(cityIds[i/2]);
             Address a = new Address();
             a.setCity(city);
-            a.setState(city.getState());
-            a.setCountry(city.getCountry());
+            State s = new State();
+            s.setState_id(city.getState().getState_id());
+            a.setState(s);
+            Country co = new Country();
+            co.setCountry_id(city.getCountry().getCountry_id());
+            a.setCountry(co);
             a.setAddress(streetNames[i] + " Street " + random.nextInt(100));
-
             customer.setAddress(a);
-
             customers.add(customerRepository.save(customer));
         }
         return customers;
