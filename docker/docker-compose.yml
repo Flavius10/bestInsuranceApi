@@ -16,6 +16,7 @@ services:
       - BPL_DEBUG_ENABLED=true
       - BPL_DEBUG_PORT=5005
       - BPL_DEBUG_SUSPEND=false
+      - SPRINGDOC_API_DOCS_VERSION=OPENAPI_3_0
       #- DATALOADER_LOADSAMPLE=true
 
   db:
