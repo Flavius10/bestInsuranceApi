@@ -24,7 +24,6 @@ public class PolicyUpdate {
     private BigDecimal price;
 
     @NotNull
-    @NotEmpty
     private List<String> coveragesIds;
 
     public String getName() {

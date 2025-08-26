@@ -8,12 +8,14 @@ import com.bestinsurance.api.dto.policy.PolicyUpdate;
 import com.bestinsurance.api.dto.policy.PolicyView;
 import com.bestinsurance.api.services.CrudService;
 import com.bestinsurance.api.services.PoliciesService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ public class PolicyController extends AbstractSimpleIdCrudController<PolicyCreat
     public CrudService<Policy, UUID> getService() {
         return this.policiesService;
     }
+
 
     @Override
     public DTOMapper<PolicyCreation, Policy> getCreateDtoMapper(){
@@ -63,9 +66,17 @@ public class PolicyController extends AbstractSimpleIdCrudController<PolicyCreat
             policyViewDTO.setPrice(policyView.getPrice());
             policyViewDTO.setCreated(policyView.getCreated());
             policyViewDTO.setUpdated(policyView.getUpdated());
-            policyViewDTO.setCoverage(policyView.getPoliciesCoverages().stream()
-                    .map(coverage ->new CoverageView(coverage.getCoverage_id().toString(), coverage.getName(), coverage.getDescription()))
-                    .collect(Collectors.toList()));
+            policyViewDTO.setCoverage(
+                    policyView.getPoliciesCoverages() != null
+                            ? policyView.getPoliciesCoverages().stream()
+                            .map(coverage -> new CoverageView(
+                                    coverage.getCoverage_id().toString(),
+                                    coverage.getName(),
+                                    coverage.getDescription()))
+                            .collect(Collectors.toList())
+                            : Collections.emptyList()
+            );
+
             return policyViewDTO;
         };
     }
