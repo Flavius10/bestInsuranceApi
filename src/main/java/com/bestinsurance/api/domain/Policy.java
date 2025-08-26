@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "policies")
-public class Policy {
+public class Policy implements DomainObject<UUID>{
 
     /// Fields
 
@@ -88,6 +88,11 @@ public class Policy {
 
     public void setPolicy_id(final UUID policy_id){
         this.policy_id = policy_id;
+    }
+
+    @Override
+    public void setId(final UUID id){
+        this.setPolicy_id(id);
     }
 
     public String getName(){

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "customers")
-public class Customer {
+public class Customer implements DomainObject<UUID>{
 
     /// Fields
     @Id
@@ -85,6 +85,11 @@ public class Customer {
 
     public void setCustomer_id(final UUID customer_id){
         this.customer_id = customer_id;
+    }
+
+    @Override
+    public void setId(final UUID id){
+        this.setCustomer_id(id);
     }
 
     public String getName(){

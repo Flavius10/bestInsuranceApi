@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "countries")
-public class Country {
+public class Country implements DomainObject<UUID>{
 
     /// Fields
     @Id
@@ -66,6 +66,11 @@ public class Country {
 
     public void setCountry_id(final UUID country_id) {
         this.country_id = country_id;
+    }
+
+    @Override
+    public void setId(final UUID id){
+        this.setCountry_id(id);
     }
 
     public String getName() {

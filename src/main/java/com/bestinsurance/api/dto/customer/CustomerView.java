@@ -1,6 +1,9 @@
-package com.bestinsurance.api.dto;
+package com.bestinsurance.api.dto.customer;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.bestinsurance.api.dto.AddressView;
+import com.bestinsurance.api.dto.CityView;
+import com.bestinsurance.api.dto.CountryView;
+import com.bestinsurance.api.dto.StateView;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

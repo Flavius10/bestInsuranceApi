@@ -15,10 +15,8 @@ import java.util.Objects;
 @Entity
 @Table(name="subscriptions")
 @EntityListeners(AuditingEntityListener.class)
-public class Subscription implements Serializable {
-
+public class Subscription implements Serializable, DomainObject<SubscriptionId> {
     private static final long serialVersionUID = 42L;
-
     @EmbeddedId
     private SubscriptionId id;
 
@@ -62,9 +60,9 @@ public class Subscription implements Serializable {
         return Objects.hash(id);
     }
 
-    public SubscriptionId getId() { return id; }
-
     public void setId(SubscriptionId id) { this.id = id; }
+
+    public SubscriptionId getId() { return id; }
 
     public LocalDate getStartDate() {
         return startDate;
@@ -121,4 +119,5 @@ public class Subscription implements Serializable {
     public void setCustomer(final Customer customer) {
         this.customer = customer;
     }
+
 }

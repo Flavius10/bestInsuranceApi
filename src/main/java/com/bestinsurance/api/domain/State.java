@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "states")
-public class State {
+public class State implements DomainObject<UUID>{
 
     /// Fields
     @Id
@@ -65,6 +65,11 @@ public class State {
 
     public void setState_id(final UUID state_id){
         this.state_id = state_id;
+    }
+
+    @Override
+    public void setId(final UUID id){
+        this.setState_id(id);
     }
     
     public String getName(){

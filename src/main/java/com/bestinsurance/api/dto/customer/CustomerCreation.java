@@ -1,10 +1,18 @@
-package com.bestinsurance.api.dto;
+package com.bestinsurance.api.dto.customer;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CustomerUpdate {
+public class CustomerCreation {
+
+    @NotBlank
+    @Size(max = 64)
+    private String name;
+
+    @NotBlank
+    @Size(max = 64)
+    private String surname;
 
     @NotBlank
     @Email
@@ -25,6 +33,22 @@ public class CustomerUpdate {
 
     @NotBlank
     private String idState;
+
+    public String getName(){
+        return this.name;
+    }
+
+    public void setName(final String name){
+        this.name = name;
+    }
+
+    public String getSurname(){
+        return this.surname;
+    }
+
+    public void setSurname(final String surname){
+        this.surname = surname;
+    }
 
     public String getEmail(){
         return this.email;
@@ -50,28 +74,27 @@ public class CustomerUpdate {
         this.postal_code = postal_code;
     }
 
-    public String getIdCountry(){
-        return this.idCountry;
+    public String getIdCountry() {
+        return idCountry;
     }
 
-    public void setIdCountry(final String idCountry){
+    public void setIdCountry(final String idCountry) {
         this.idCountry = idCountry;
     }
 
-    public String getIdCity(){
-        return this.idCity;
+    public String getIdCity() {
+        return idCity;
     }
 
-    public void setIdCity(final String idCity){
+    public void setIdCity(final String idCity) {
         this.idCity = idCity;
     }
 
-    public String getIdState(){
-        return this.idState;
+    public String getIdState() {
+        return idState;
     }
 
-    public void setIdState(final String idState){
+    public void setIdState(final String idState) {
         this.idState = idState;
     }
-
 }
