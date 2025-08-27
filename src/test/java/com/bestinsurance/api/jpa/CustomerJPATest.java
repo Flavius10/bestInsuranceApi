@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import java.time.LocalDate;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(DomainConfig.class)
@@ -25,6 +27,7 @@ public class CustomerJPATest {
         customer.setName("Dummy");
         customer.setEmail("Test_email");
         customer.setSurname("Joe");
+        customer.setBirthDate(LocalDate.of(1990, 5, 15));
         customer.setAddress(new com.bestinsurance.api.domain.Address());
         customer.setCustomerSubscriptions(new java.util.HashSet<>());
 

@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/003-ddl-definition.sql
   - include:
       file: db/changelog/004-ddl-definition.sql
+  - include:
+      file: db/changelog/005-ddl-definition.sql

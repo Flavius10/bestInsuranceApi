@@ -5,6 +5,7 @@ import com.bestinsurance.api.dto.customer.CustomerCreation;
 import com.bestinsurance.api.dto.customer.CustomerUpdate;
 import com.bestinsurance.api.dto.customer.CustomerView;
 import com.bestinsurance.api.repos.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jayway.jsonpath.JsonPath;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.transaction.annotation.Propagation;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,11 +64,14 @@ public class CustomerControllerTest {
 
         CustomerCreation customerCreation = new CustomerCreation();
 
+        om.registerModule(new JavaTimeModule());
+
         customerCreation.setName("Dummy");
         customerCreation.setSurname("Joe");
         customerCreation.setEmail("testEmail@gmail.com");
         customerCreation.setAddress("Dummy Street 123");
         customerCreation.setPostal_code("12345");
+        customerCreation.setBirthDate(LocalDate.of(1990, 5, 15));
         customerCreation.setIdCountry("11111111-1111-1111-1111-111111111111");
         customerCreation.setIdState("aaaaaaa3-0000-0000-0000-aaaaaaaaaaa3");
         customerCreation.setIdCity("45576d7c-8d84-4422-9440-19ef80fa16f3");
@@ -128,6 +133,7 @@ public class CustomerControllerTest {
         customer.setSurname("Doe");
         customer.setEmail("john.doe@example.com");
         customer.setTelephone_number("123-456-7890");
+        customer.setBirthDate(LocalDate.of(1990, 5, 15));
         customer.setAddress(address);
 
         customerRepository.save(customer);
@@ -179,6 +185,7 @@ public class CustomerControllerTest {
         customer.setSurname("Doe");
         customer.setEmail("john.doe@example.com");
         customer.setTelephone_number("123-456-7890");
+        customer.setBirthDate(LocalDate.of(1990, 5, 15));
         customer.setAddress(address);
         customerRepository.save(customer);
 
@@ -233,6 +240,7 @@ public class CustomerControllerTest {
         customer.setSurname("Doe");
         customer.setEmail("john.doe@example.com");
         customer.setTelephone_number("123-456-7890");
+        customer.setBirthDate(LocalDate.of(1990, 5, 15));
         customer.setAddress(address);
         customerRepository.save(customer);
 
@@ -290,6 +298,7 @@ public class CustomerControllerTest {
         customer.setSurname("Doe");
         customer.setEmail("john.doe@example.com");
         customer.setTelephone_number("123-456-7890");
+        customer.setBirthDate(LocalDate.of(1990, 5, 15));
         customer.setAddress(address);
         customerRepository.save(customer);
 

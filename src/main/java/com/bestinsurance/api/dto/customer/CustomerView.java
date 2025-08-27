@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+
 public class CustomerView {
 
     @NotBlank
@@ -25,6 +27,7 @@ public class CustomerView {
     @Email
     private String email;
 
+    private LocalDate birthDate;
     private AddressView address;
     private CountryView country;
     private StateView state;
@@ -60,6 +63,14 @@ public class CustomerView {
 
     public void setEmail(final String email){
         this.email = email;
+    }
+
+    public LocalDate getBirthDate(){
+        return this.birthDate;
+    }
+
+    public void setBirthDate(final LocalDate birthDate){
+        this.birthDate = birthDate;
     }
 
     public AddressView getAddress(){

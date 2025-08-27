@@ -49,7 +49,11 @@ public class SampleDataLoader {
                 "144b05b6-ebf6-43a8-836d-0998c2c20a3c",
                 "74716a04-d538-4441-84bf-7c41470778ca",
                 "eb5e9505-8580-4857-9195-6bee0324ac0f"};
-
+        LocalDate[] birthDates = {LocalDate.now().minusYears(20),
+                LocalDate.now().minusYears(40),
+                LocalDate.now().minusYears(50),
+                LocalDate.now().minusYears(60),
+                LocalDate.now().minusYears(70)};
         Random random = new Random();
         List<Customer> customers = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
@@ -57,6 +61,7 @@ public class SampleDataLoader {
             customer.setName(names[i]);
             customer.setSurname(surnames[i]);
             customer.setEmail(customer.getName().toLowerCase() + "." + customer.getSurname().toLowerCase() + "@example.com");
+            customer.setBirthDate(birthDates[i/2]);
             customer.setTelephone_number(String.format("(%d)%d-%04d", random.nextInt(900) + 100, random.nextInt(900) + 100, random.nextInt(10000)));
             City city = findCity(cityIds[i/2]);
             Address a = new Address();

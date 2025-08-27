@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -32,6 +33,9 @@ public class Customer implements DomainObject<UUID>{
 
     @Column(length = 20)
     private String telephone_number;
+
+    @Column
+    private LocalDate birthDate;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -122,6 +126,14 @@ public class Customer implements DomainObject<UUID>{
 
     public void setTelephone_number(final String telephone_number){
         this.telephone_number = telephone_number;
+    }
+
+    public LocalDate getBirthDate(){
+        return this.birthDate;
+    }
+
+    public void setBirthDate(final LocalDate birthDate){
+        this.birthDate = birthDate;
     }
 
     public OffsetDateTime getCreated(){

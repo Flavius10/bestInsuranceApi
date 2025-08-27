@@ -28,5 +28,6 @@ public class CustomerService extends AbstractCrudService<Customer, UUID> {
     public void updatePreSave(Customer fetchedObj, Customer toSave){
         toSave.setName(fetchedObj.getName());
         toSave.setSurname(fetchedObj.getSurname());
+        toSave.setBirthDate(fetchedObj.getBirthDate());
     }
 }

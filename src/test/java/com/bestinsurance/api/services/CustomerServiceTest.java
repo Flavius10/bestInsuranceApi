@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,6 +37,7 @@ public class CustomerServiceTest {
         new_customer.setSurname("Joe");
         new_customer.setEmail("");
         new_customer.setTelephone_number("");
+        new_customer.setBirthDate(LocalDate.of(1990, 5, 15));
         new_customer.setAddress(null);
         new_customer.setCustomerSubscriptions(null);
 
