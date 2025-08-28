@@ -2,14 +2,29 @@ package com.bestinsurance.api.services;
 
 import com.bestinsurance.api.domain.Customer;
 import com.bestinsurance.api.repos.CustomerRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 @Service
 public class CustomerService extends AbstractCrudService<Customer, UUID> {
@@ -29,5 +44,64 @@ public class CustomerService extends AbstractCrudService<Customer, UUID> {
         toSave.setName(fetchedObj.getName());
         toSave.setSurname(fetchedObj.getSurname());
         toSave.setBirthDate(fetchedObj.getBirthDate());
+    }
+
+    public enum CustomerOrderBy{
+        name, surname, email, birthDate;
+    }
+
+    public enum OrderDirection{
+        ASC, DESC;
+    }
+
+    public List<Customer> findAllWithFilters(String nameContains, String surnameContains, String emailContains,
+                                   Integer ageFrom, Integer ageTo, CustomerOrderBy orderBy, OrderDirection orderDirection){
+
+        Customer customer = new Customer();
+        customer.setName(nameContains);
+        customer.setSurname(surnameContains);
+        customer.setEmail(emailContains);
+
+        ExampleMatcher customMatchers = ExampleMatcher.matchingAny()
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("surname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        Example<Customer> exampleCustomerName = Example.of(customer, customMatchers);
+
+        Sort sort;
+
+        if (orderDirection == null){
+            sort = Sort.by(Sort.Direction.ASC, orderBy.name());
+        } else {
+            if (orderDirection == OrderDirection.DESC) {
+                sort = Sort.by(Sort.Direction.DESC, orderBy.name());
+            } else {
+                sort = Sort.by(Sort.Direction.ASC, orderBy.name());
+            }
+        }
+
+        Iterable<Customer> customers = customerRepository.findAll(getSpecFromDatesAndExample(ageFrom, ageTo, exampleCustomerName), sort);
+        List<Customer> customerList = new ArrayList<>();
+        customers.forEach(customerList::add);
+        return customerList;
+    }
+
+    private Specification<Customer> getSpecFromDatesAndExample(Integer ageFrom, Integer ageTo, Example<Customer> example){
+        return (root, query, builder) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+            if (ageFrom != null && ageTo != null){
+                LocalDate startDate = LocalDate.now().minusYears(ageTo);
+                LocalDate endDate = LocalDate.now().minusYears(ageFrom);
+                predicates.add(builder.between(root.get(CustomerOrderBy.birthDate.name()), startDate, endDate));
+            }
+
+            Predicate examplePredicate = QueryByExamplePredicateBuilder.getPredicate(root, builder, example);
+
+            if (examplePredicate != null){
+                predicates.add(examplePredicate);
+            }
+
+            return builder.and(predicates.toArray(Predicate[]::new));
+        };
     }
 }
