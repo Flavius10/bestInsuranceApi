@@ -17,7 +17,7 @@ public interface CrudController<CreateDTO, UpdateDTO, SearchDTO> {
     SearchDTO searchById(@NotEmpty @PathVariable Map<String, String> id);
 
     @GetMapping
-    List<SearchDTO> all();
+    List<SearchDTO> all(@RequestParam(required = false) Map<String, String> filter);
 
     SearchDTO update(@NotEmpty @PathVariable Map<String, String> id, @Valid @RequestBody UpdateDTO update_dto);
 

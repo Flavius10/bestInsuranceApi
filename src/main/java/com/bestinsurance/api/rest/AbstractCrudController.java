@@ -50,7 +50,7 @@ public abstract class AbstractCrudController<CreateDTO, UpdateDTO, SearchDTO, Do
     }
 
     @Override
-    public List<SearchDTO> all(){
+    public List<SearchDTO> all(Map<String, String> filter){
         try {
             return this.getService().findAll().stream().map(this.getSearchDtoMapper()::map).toList();
         } catch (Exception e){

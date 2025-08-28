@@ -8,13 +8,18 @@ import com.bestinsurance.api.dto.policy.PolicyUpdate;
 import com.bestinsurance.api.dto.policy.PolicyView;
 import com.bestinsurance.api.services.CrudService;
 import com.bestinsurance.api.services.PoliciesService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +30,12 @@ public class PolicyController extends AbstractSimpleIdCrudController<PolicyCreat
 
     private static final Logger logger = LoggerFactory.getLogger(PolicyController.class);
 
+    public static final String NAME_CONTAINS = "nameContains";
+    public static final String PRICE_MORE_THAN = "priceMoreThan";
+    public static final String PRICE_LESS_THAN = "priceLessThan";
+    public static final String PRICE = "price";
+    public static final String ORDERBY = "orderBy";
+
     @Autowired
     private PoliciesService policiesService;
 
@@ -33,6 +44,28 @@ public class PolicyController extends AbstractSimpleIdCrudController<PolicyCreat
         return this.policiesService;
     }
 
+    @Override
+    @Parameter(in = ParameterIn.QUERY, name = NAME_CONTAINS, schema = @Schema(type = "string"), required = false)
+    @Parameter(in = ParameterIn.QUERY, name = PRICE_MORE_THAN, schema = @Schema(type = "number"), required = false)
+    @Parameter(in = ParameterIn.QUERY, name = PRICE_LESS_THAN, schema = @Schema(type = "number"), required = false)
+    @Parameter(in = ParameterIn.QUERY, name = PRICE, schema = @Schema(type = "number"), required = false)
+    @Parameter(in = ParameterIn.QUERY, name = ORDERBY, schema = @Schema(type = "string"), required = false)
+    public List<PolicyView> all(Map<String, String> filters){
+
+        try{
+            BigDecimal priceMoreThan = filters.get(PRICE_MORE_THAN) == null ? null : new BigDecimal(filters.get(PRICE_MORE_THAN));
+            BigDecimal priceLessThan = filters.get(PRICE_LESS_THAN) == null ? null : new BigDecimal(filters.get(PRICE_LESS_THAN));
+            BigDecimal price = filters.get(PRICE) == null ? null : new BigDecimal(filters.get(PRICE));
+            PoliciesService.PolicyOrderBy orderBy = filters.get(ORDERBY) == null ? null : PoliciesService.PolicyOrderBy.valueOf(filters.get(ORDERBY).toUpperCase());
+            String nameContains = filters.get(NAME_CONTAINS);
+
+            return this.policiesService.findAllWitFilters(priceMoreThan, priceLessThan, price, nameContains, orderBy)
+                    .stream().map(this.getSearchDtoMapper()::map).toList();
+        } catch (Exception e) {
+            logger.error("Error during findAll: ", e);
+            throw new RuntimeException("Error during search: " + e.getMessage(), e);
+        }
+    }
 
     @Override
     public DTOMapper<PolicyCreation, Policy> getCreateDtoMapper(){
@@ -80,6 +113,4 @@ public class PolicyController extends AbstractSimpleIdCrudController<PolicyCreat
             return policyViewDTO;
         };
     }
-
-
 }

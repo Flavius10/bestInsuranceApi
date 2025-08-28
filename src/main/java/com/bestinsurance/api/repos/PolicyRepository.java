@@ -48,4 +48,8 @@ public interface PolicyRepository extends CrudRepository<Policy, UUID> {
     List<Policy> findByNameContainingAndPriceLessThanOrderByNameAsc(String name, BigDecimal price);
     List<Policy> findByNameContainingAndPriceLessThanOrderByPriceAsc(String name, BigDecimal price);
 
+    /// /policies?priceGreaterThan=x&nameContains=string&orderBy=["price"|name]
+    List<Policy> findByNameContainingAndPriceGreaterThanOrderByNameAsc(String name, BigDecimal price);
+    List<Policy> findByNameContainingAndPriceGreaterThanOrderByPriceAsc(String name, BigDecimal price);
+
 }
