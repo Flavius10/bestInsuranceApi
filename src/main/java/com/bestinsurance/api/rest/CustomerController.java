@@ -25,14 +25,14 @@ import java.util.*;
 @RequestMapping("/customers")
 public class CustomerController extends AbstractSimpleIdCrudController<CustomerCreation, CustomerUpdate, CustomerView, Customer> {
 
-    private static final String NAME = "name";
-    private static final String SURNAME = "surname";
-    private static final String EMAIL = "email";
-    private static final String AGE = "age";
+    public static final String NAME = "name";
+    public static final String SURNAME = "surname";
+    public static final String EMAIL = "email";
+    public static final String AGE = "age";
     public final static String AGE_FROM = "ageFrom";
     public final static String AGE_TO = "ageTo";
-    private static final String ORDERBY = "orderBy";
-    private static final String ORDERDIRECTION = "orderDirection";
+    public static final String ORDERBY = "orderBy";
+    public static final String ORDERDIRECTION = "orderDirection";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
