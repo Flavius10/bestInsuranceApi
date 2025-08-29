@@ -7,6 +7,7 @@ import com.bestinsurance.api.dto.customer.CustomerCreation;
 import com.bestinsurance.api.dto.customer.CustomerUpdate;
 import com.bestinsurance.api.dto.customer.CustomerView;
 import com.bestinsurance.api.dto.mappers.DTOMapper;
+import com.bestinsurance.api.dto.policy.PolicyView;
 import com.bestinsurance.api.services.CrudService;
 import com.bestinsurance.api.services.CustomerService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,6 +35,10 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
     public final static String AGE_TO = "ageTo";
     public static final String ORDERBY = "orderBy";
     public static final String ORDERDIRECTION = "orderDirection";
+    private static final String ID = "id";
+    private static final String DISCOUNT_PRICE = "discountedPrice";
+    private static final String START_DATE = "startDate";
+    private static final String END_DATE = "endDate";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -98,6 +104,52 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
         }
 
     }
+
+    @GetMapping("/policy/{" + ID + "}")
+    @Parameter(in = ParameterIn.PATH, name = "id", schema = @Schema(type = "string"), required = true)
+    public List<CustomerView> policies(@PathVariable Map<String, String> id){
+        try{
+            return this.customerService.selectCustomerByPolicy(this.getIdDtoMapper().map(id)).stream().map(this.getSearchDtoMapper()::map).toList();
+        } catch (Exception e){
+            logger.error("Error during findAll: ", e);
+            throw new RuntimeException("Error during searchByPolicy: " + e.getMessage(), e);
+        }
+    }
+
+    @GetMapping("/coverage/{" + ID + "}")
+    @Parameter(in = ParameterIn.PATH, name = "id", schema = @Schema(type = "string"), required = true)
+    public List<CustomerView> coverages(@PathVariable Map<String, String> id){
+        try{
+            return this.customerService.selectCustomerByCoverage(this.getIdDtoMapper().map(id)).stream().map(this.getSearchDtoMapper()::map).toList();
+        } catch (Exception e){
+            logger.error("Error during findAll: ", e);
+            throw new RuntimeException("Error during searchByCoverage: " + e.getMessage(), e);
+        }
+    }
+
+    @GetMapping("/subscriptions/{" + DISCOUNT_PRICE + "}")
+    @Parameter(in = ParameterIn.PATH, name = DISCOUNT_PRICE, schema = @Schema(type = "string"), required = true)
+    public List<CustomerView> subscriptions(){
+        try{
+            return this.customerService.selectCustomerByDiscountedPrice().stream().map(this.getSearchDtoMapper()::map).toList();
+        } catch (Exception e){
+            logger.error("Error during findAll: ", e);
+            throw new RuntimeException("Error during searchByDiscountPrice: " + e.getMessage(), e);
+        }
+    }
+
+    @GetMapping("/subscriptions")
+    public List<CustomerView> dateMethodFilter(
+            @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd") LocalDate endDate){
+        try{
+            return this.customerService.selectCustomerBySubscriptionDate(startDate, endDate).stream().map(this.getSearchDtoMapper()::map).toList();
+        } catch (Exception e){
+            logger.error("Error during findAll: ", e);
+            throw new RuntimeException("Error during searchByDateTime: " + e.getMessage(), e);
+        }
+    }
+
 
     @Override
     protected DTOMapper<CustomerCreation, Customer> getCreateDtoMapper() {

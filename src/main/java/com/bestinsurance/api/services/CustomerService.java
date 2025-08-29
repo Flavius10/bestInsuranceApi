@@ -54,6 +54,22 @@ public class CustomerService extends AbstractCrudService<Customer, UUID> {
         ASC, DESC;
     }
 
+    public List<Customer> selectCustomerByPolicy(UUID policyId){
+        return this.customerRepository.selectCustomerByPolicy(policyId);
+    }
+
+    public List<Customer> selectCustomerByCoverage(UUID coverageId){
+        return this.customerRepository.selectCustomerByCoverage(coverageId);
+    }
+
+    public List<Customer> selectCustomerByDiscountedPrice(){
+        return this.customerRepository.selectCustomerByDiscountedPrice();
+    }
+
+    public List<Customer> selectCustomerBySubscriptionDate(LocalDate startDate, LocalDate endDate){
+        return this.customerRepository.selectCustomerBySubscriptionDate(startDate, endDate);
+    }
+
     public List<Customer> findAllWithFilters(String nameContains, String surnameContains, String emailContains,
                                    Integer ageFrom, Integer ageTo, CustomerOrderBy orderBy, OrderDirection orderDirection){
 
