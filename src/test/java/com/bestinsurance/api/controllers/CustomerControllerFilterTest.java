@@ -42,63 +42,63 @@ public class CustomerControllerFilterTest extends AbstractCustomerWithAssociatio
     @Test
     public void testAllFiltersInitializedOrderByNameASC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.NAME).setOrderDirection("ASC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderByNameDESC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.NAME).setOrderDirection("DESC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderBySurnameASC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.SURNAME).setOrderDirection("ASC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderBySurnameDESC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.SURNAME).setOrderDirection("DESC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderByEmailASC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("0").setAgeTo("80").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("0").setAgeTo("80").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.EMAIL).setOrderDirection("ASC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderByEmailDESC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.EMAIL).setOrderDirection("DESC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderByAgeASC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.AGE).setOrderDirection("ASC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitializedOrderByAgeDESC() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").setOrderBy(CustomerController.AGE).setOrderDirection("DESC").runTest(0);
     }
 
     @Test
     public void testAllFiltersInitialized() throws Exception {
         new CustomerControllerFilterTest.CustomerSearchTestHelper().setName("Acustomer").
-                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("1").setPageSize("3")
+                setSurname("Acustomer").setAgeFrom("30").setAgeTo("60").setPageNumber("0").setPageSize("3")
                 .setEmail("A").runTest(0);
     }
 

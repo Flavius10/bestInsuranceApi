@@ -66,6 +66,7 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
     public List<CustomerView> all(Map<String, String> filters){
 
         try{
+
            String name = filters.get(NAME) == null ? null : filters.get(NAME);
            String surname = filters.get(SURNAME) == null ? null : filters.get(SURNAME);
            String email = filters.get(EMAIL) == null ? null : filters.get(EMAIL);
@@ -103,14 +104,8 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
 
           CustomerService.OrderDirection orderDirection = filters.get(ORDERDIRECTION) == null ? null : CustomerService.OrderDirection.valueOf(filters.get(ORDERDIRECTION).toUpperCase());
 
-            if (pageNumber != null) {
-                return this.customerService.findAllWithFilters(name, surname, email, ageFrom, ageTo, pageNumber, pageSize, orderBy, orderDirection)
-                        .stream().map(this.getSearchDtoMapper()::map).toList();
-            }
-            else{
-                return this.customerService.findAllWithFilters(name, surname, email, ageFrom, ageTo, null, pageSize, orderBy, orderDirection)
-                        .stream().map(this.getSearchDtoMapper()::map).toList();
-            }
+            return this.customerService.findAllWithFilters(name, surname, email, ageFrom, ageTo, pageNumber, pageSize, orderBy, orderDirection)
+                    .stream().map(this.getSearchDtoMapper()::map).toList();
 
 
         } catch (Exception e){

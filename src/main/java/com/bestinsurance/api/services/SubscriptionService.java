@@ -1,5 +1,6 @@
 package com.bestinsurance.api.services;
 
+import com.bestinsurance.api.domain.StateSubscriptionRevenue;
 import com.bestinsurance.api.domain.Subscription;
 import com.bestinsurance.api.domain.SubscriptionId;
 import com.bestinsurance.api.repos.SubscriptionRepository;
@@ -8,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SubscriptionService extends AbstractCrudService<Subscription, SubscriptionId>{
@@ -27,6 +30,10 @@ public class SubscriptionService extends AbstractCrudService<Subscription, Subsc
         super.updatePreSave(fetchedObj, toSave);
         toSave.setPolicy(fetchedObj.getPolicy());
         toSave.setCustomer(fetchedObj.getCustomer());
+    }
+
+    public List<StateSubscriptionRevenue> selectStateSubscriptionsRevenue(){
+        return this.subscriptionRepository.selectStateRevenue();
     }
 
 }

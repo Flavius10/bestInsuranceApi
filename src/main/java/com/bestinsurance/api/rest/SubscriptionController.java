@@ -1,11 +1,13 @@
 package com.bestinsurance.api.rest;
 
+import com.bestinsurance.api.domain.StateSubscriptionRevenue;
 import com.bestinsurance.api.domain.Subscription;
 import com.bestinsurance.api.domain.SubscriptionId;
 import com.bestinsurance.api.dto.customer.CustomerView;
 import com.bestinsurance.api.dto.mappers.DTOMapper;
 import com.bestinsurance.api.dto.policy.PolicyView;
 import com.bestinsurance.api.dto.subscription.SubscriptionCreation;
+import com.bestinsurance.api.dto.subscription.SubscriptionRevenueView;
 import com.bestinsurance.api.dto.subscription.SubscriptionUpdate;
 import com.bestinsurance.api.dto.subscription.SubscriptionView;
 import com.bestinsurance.api.services.CrudService;
@@ -13,9 +15,12 @@ import com.bestinsurance.api.services.SubscriptionService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,6 +28,8 @@ import java.util.UUID;
 @RequestMapping("/subscriptions")
 public class SubscriptionController
         extends AbstractCrudController<SubscriptionCreation, SubscriptionUpdate, SubscriptionView, Subscription, SubscriptionId>{
+
+    private static final Logger logger = LoggerFactory.getLogger(SubscriptionController.class);
 
     private static final String ID_CUSTOMER = "idCustomer";
     private static final String ID_POLICY = "idPolicy";
@@ -33,6 +40,17 @@ public class SubscriptionController
     @Override
     public CrudService<Subscription, SubscriptionId> getService(){
         return this.subscriptionService;
+    }
+
+    @GetMapping("/revenues")
+    public List<SubscriptionRevenueView> setStateSubscriptionRevenue(){
+        try{
+            return this.subscriptionService.selectStateSubscriptionsRevenue().stream().
+                    map(x -> new SubscriptionRevenueView(x.name(), x.revenue(), x.customerCount())).toList();
+        } catch (Exception ex){
+            logger.info("Error during setStateSubscriptionRevenue: ", ex);
+            throw new RuntimeException("Error during setStateSubscriptionRevenue: " + ex.getMessage(), ex);
+        }
     }
 
     @GetMapping("/{"+ ID_CUSTOMER +"}/{" + ID_POLICY + "}")
