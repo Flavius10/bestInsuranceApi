@@ -40,6 +40,9 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
     private static final String START_DATE = "startDate";
     private static final String END_DATE = "endDate";
 
+    public static final String PAGE_NUMBER = "pageNumber";
+    public static final String PAGE_SIZE = "pageSize";
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -56,6 +59,8 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
     @Parameter(in = ParameterIn.QUERY, name = EMAIL, schema = @Schema(type = "string"), required = false)
     @Parameter(in = ParameterIn.QUERY, name = AGE_FROM, schema = @Schema(type = "string"), required = false)
     @Parameter(in = ParameterIn.QUERY, name = AGE_TO, schema = @Schema(type = "string"), required = false)
+    @Parameter(in = ParameterIn.QUERY, name = PAGE_NUMBER, schema = @Schema(type = "string"), required = false)
+    @Parameter(in = ParameterIn.QUERY, name = PAGE_SIZE, schema = @Schema(type = "string"), required = false)
     @Parameter(in = ParameterIn.QUERY, name = ORDERBY, schema = @Schema(type = "string"), required = false)
     @Parameter(in = ParameterIn.QUERY, name = ORDERDIRECTION, schema = @Schema(type = "string"), required = false)
     public List<CustomerView> all(Map<String, String> filters){
@@ -67,6 +72,9 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
 
            Integer ageFrom = filters.get(AGE_FROM) == null ? null : Integer.parseInt(filters.get(AGE_FROM));
            Integer ageTo = filters.get(AGE_TO) == null ? null : Integer.parseInt(filters.get(AGE_TO));
+
+           Integer pageNumber = filters.get(PAGE_NUMBER) == null ? null : Integer.parseInt(filters.get(PAGE_NUMBER));
+           Integer pageSize = filters.get(PAGE_SIZE) == null ? 10 : Integer.parseInt(filters.get(PAGE_SIZE));
 
            if (ageFrom != null && ageTo != null && ageTo < ageFrom){
                throw new IllegalArgumentException("ageTo cannot be less than ageFrom");
@@ -95,8 +103,15 @@ public class CustomerController extends AbstractSimpleIdCrudController<CustomerC
 
           CustomerService.OrderDirection orderDirection = filters.get(ORDERDIRECTION) == null ? null : CustomerService.OrderDirection.valueOf(filters.get(ORDERDIRECTION).toUpperCase());
 
-          return this.customerService.findAllWithFilters(name, surname, email, ageFrom, ageTo, orderBy, orderDirection)
-                   .stream().map(this.getSearchDtoMapper()::map).toList();
+            if (pageNumber != null) {
+                return this.customerService.findAllWithFilters(name, surname, email, ageFrom, ageTo, pageNumber, pageSize, orderBy, orderDirection)
+                        .stream().map(this.getSearchDtoMapper()::map).toList();
+            }
+            else{
+                return this.customerService.findAllWithFilters(name, surname, email, ageFrom, ageTo, null, pageSize, orderBy, orderDirection)
+                        .stream().map(this.getSearchDtoMapper()::map).toList();
+            }
+
 
         } catch (Exception e){
             logger.error("Error during findAll: ", e);

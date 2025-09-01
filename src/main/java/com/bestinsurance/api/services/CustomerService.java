@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
@@ -71,7 +72,7 @@ public class CustomerService extends AbstractCrudService<Customer, UUID> {
     }
 
     public List<Customer> findAllWithFilters(String nameContains, String surnameContains, String emailContains,
-                                   Integer ageFrom, Integer ageTo, CustomerOrderBy orderBy, OrderDirection orderDirection){
+                                   Integer ageFrom, Integer ageTo, Integer pageNumber, Integer pageSize, CustomerOrderBy orderBy, OrderDirection orderDirection){
 
         Customer customer = new Customer();
         customer.setName(nameContains);
@@ -95,11 +96,20 @@ public class CustomerService extends AbstractCrudService<Customer, UUID> {
                 sort = Sort.by(Sort.Direction.ASC, orderBy.name());
             }
         }
+        if (pageNumber == null){
+            Iterable<Customer> customers = customerRepository.findAll(getSpecFromDatesAndExample(ageFrom, ageTo, exampleCustomerName), sort);
+            List<Customer> customerList = new ArrayList<>();
+            customers.forEach(customerList::add);
+            return customerList;
+        }
+        else {
+            PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
+            Iterable<Customer> customers = customerRepository.findAll(getSpecFromDatesAndExample(ageFrom, ageTo, exampleCustomerName), pageable);
+            List<Customer> customerList = new ArrayList<>();
+            customers.forEach(customerList::add);
+            return customerList;
+        }
 
-        Iterable<Customer> customers = customerRepository.findAll(getSpecFromDatesAndExample(ageFrom, ageTo, exampleCustomerName), sort);
-        List<Customer> customerList = new ArrayList<>();
-        customers.forEach(customerList::add);
-        return customerList;
     }
 
     private Specification<Customer> getSpecFromDatesAndExample(Integer ageFrom, Integer ageTo, Example<Customer> example){
