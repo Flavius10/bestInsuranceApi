@@ -1,7 +1,9 @@
 package com.bestinsurance.api.domain;
 
+import com.bestinsurance.api.domain.events.SubscriptionUpdated;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.*;
@@ -120,4 +122,8 @@ public class Subscription implements Serializable, DomainObject<SubscriptionId> 
         this.customer = customer;
     }
 
+    @DomainEvents
+    public SubscriptionUpdated domainEvent(){
+        return new SubscriptionUpdated(this);
+    }
 }

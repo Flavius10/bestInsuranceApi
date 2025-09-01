@@ -19,6 +19,7 @@ services:
       # FOARTE IMPORTANT PENTRU EROAREA DE LA OpenAPI
       - SPRINGDOC_API_DOCS_VERSION=OPENAPI_3_0
       - DATALOADER_LOADSAMPLE=true
+      - EVENTLISTENER_QUEUE_NAME=subscriptionLogQueue
 
   db:
     image: 'postgres:15.4-alpine'
