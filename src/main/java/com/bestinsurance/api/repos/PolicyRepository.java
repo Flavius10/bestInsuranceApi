@@ -12,6 +12,9 @@ import java.util.List;
 /// Se poate ca sa creez metode care sa fie cu niste nume speciale carora Spring Data JPA sa le poata implementa
 public interface PolicyRepository extends CrudRepository<Policy, UUID> {
 
+    ///  find the policy by name
+    Policy findByName(String name);
+
     /// All the policies with a price over x
     List<Policy> findByPriceGreaterThanOrderByNameAsc(BigDecimal price);
     List<Policy> findByPriceGreaterThanOrderByPriceAsc(BigDecimal price);

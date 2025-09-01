@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository extends CrudRepository<Customer, UUID>, JpaSpecificationExecutor<Customer>{
@@ -48,4 +49,6 @@ public interface CustomerRepository extends CrudRepository<Customer, UUID>, JpaS
            ORDER BY c.name
            """)
     List<Customer> selectCustomerBySubscriptionDate(LocalDate startDate, LocalDate endDate);
+
+    Optional<Customer> findByEmail(String email);
 }

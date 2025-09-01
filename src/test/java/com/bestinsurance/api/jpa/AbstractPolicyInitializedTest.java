@@ -35,22 +35,27 @@ public abstract class AbstractPolicyInitializedTest {
     @BeforeAll
     public void initDB() {
         this.cleanDB();
+
+        String[] names ={
+                "Silver", "Gold", "Platinum"
+        };
+
         for (int i = 0; i < 10; i++) {
             char namePrefix = (char)('A' + i);
             policyRepository.save(
-                    instancePolicy(namePrefix + " Policy", namePrefix + " Policy Description", new BigDecimal(100))
+                    instancePolicy(names[i / 4], namePrefix + " Policy Description", new BigDecimal(100))
             );
             policyRepository.save(
-                    instancePolicy(namePrefix + " Policy Double", namePrefix + " Policy Description", new BigDecimal(100))
+                    instancePolicy(names[i / 4], namePrefix + " Policy Description", new BigDecimal(100))
             );
             policyRepository.save(
-                    instancePolicy(namePrefix + " Policy s", namePrefix + " Policy Description", new BigDecimal(150))
+                    instancePolicy(names[i / 4], namePrefix + " Policy Description", new BigDecimal(150))
             );
             policyRepository.save(
-                    instancePolicy(namePrefix + " Policy z", namePrefix + " Policy Description", new BigDecimal(200))
+                    instancePolicy(names[i / 4], namePrefix + " Policy Description", new BigDecimal(200))
             );
             policyRepository.save(
-                    instancePolicy(namePrefix + " Policy k", namePrefix + " Policy Description", new BigDecimal(300))
+                    instancePolicy(names[i / 4], namePrefix + " Policy Description", new BigDecimal(300))
             );
         }
         for (int i = 0; i < 5; i++) {

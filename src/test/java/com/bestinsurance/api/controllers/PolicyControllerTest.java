@@ -72,30 +72,30 @@ public class PolicyControllerTest extends AbstractPolicyInitializedTest {
     public void testPriceNameSearch() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "A")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.PRICE , "100")
                         .queryParam(PolicyController.ORDERBY , "PRICE"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(5)))
+                .andExpect(jsonPath("$" , hasSize(20)))
                 .andReturn();
         assertTrue("Merge", checkOrderByName(om.readValue(mvcResult.getResponse().getContentAsString(), PolicyView[].class)));
 
         mvcResult = mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "A")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.PRICE , "100"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(5)))
+                .andExpect(jsonPath("$" , hasSize(20)))
                 .andReturn();
         assertTrue("Merge", checkOrderByName(om.readValue(mvcResult.getResponse().getContentAsString(), PolicyView[].class)));
 
         mvcResult = mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "A")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.PRICE , "100")
                         .queryParam(PolicyController.ORDERBY , "NAME"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(5)))
+                .andExpect(jsonPath("$" , hasSize(20)))
                 .andReturn();
         assertTrue("Merge", checkOrderByName(om.readValue(mvcResult.getResponse().getContentAsString(), PolicyView[].class)));
 
@@ -137,27 +137,27 @@ public class PolicyControllerTest extends AbstractPolicyInitializedTest {
     public void testNameSearch() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "Double")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.ORDERBY , "PRICE"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(10)))
+                .andExpect(jsonPath("$" , hasSize(20)))
                 .andReturn();
         assertTrue("Merge", checkOrderByPrice(om.readValue(mvcResult.getResponse().getContentAsString(), PolicyView[].class)));
 
         mvcResult = mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "Double")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.ORDERBY , "NAME"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(10)))
+                .andExpect(jsonPath("$" , hasSize(20)))
                 .andReturn();
         assertTrue("Merge", checkOrderByName(om.readValue(mvcResult.getResponse().getContentAsString(), PolicyView[].class)));
 
         mvcResult = mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "Double"))
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(10)))
+                .andExpect(jsonPath("$" , hasSize(20)))
                 .andReturn();
         assertTrue("Merge", checkOrderByName(om.readValue(mvcResult.getResponse().getContentAsString(), PolicyView[].class)));
     }
@@ -196,16 +196,16 @@ public class PolicyControllerTest extends AbstractPolicyInitializedTest {
     public void testOrderbyLowerCase() throws Exception {
         mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "Double")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.ORDERBY , "price"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(10)));
+                .andExpect(jsonPath("$" , hasSize(20)));
         mockMvc.perform(get("/policies")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam(PolicyController.NAME_CONTAINS, "Double")
+                        .queryParam(PolicyController.NAME_CONTAINS, "Silver")
                         .queryParam(PolicyController.ORDERBY , "name"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" , hasSize(10)));
+                .andExpect(jsonPath("$" , hasSize(20)));
     }
 
     private boolean checkOrderByPrice(PolicyView[] policies) {

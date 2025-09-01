@@ -3,6 +3,7 @@ package com.bestinsurance.api.rest;
 import com.bestinsurance.api.domain.StateSubscriptionRevenue;
 import com.bestinsurance.api.domain.Subscription;
 import com.bestinsurance.api.domain.SubscriptionId;
+import com.bestinsurance.api.dto.CsvSubscriptions;
 import com.bestinsurance.api.dto.customer.CustomerView;
 import com.bestinsurance.api.dto.mappers.DTOMapper;
 import com.bestinsurance.api.dto.policy.PolicyView;
@@ -11,15 +12,23 @@ import com.bestinsurance.api.dto.subscription.SubscriptionRevenueView;
 import com.bestinsurance.api.dto.subscription.SubscriptionUpdate;
 import com.bestinsurance.api.dto.subscription.SubscriptionView;
 import com.bestinsurance.api.services.CrudService;
+import com.bestinsurance.api.services.CsvService;
 import com.bestinsurance.api.services.SubscriptionService;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,9 +46,31 @@ public class SubscriptionController
     @Autowired
     private SubscriptionService subscriptionService;
 
+    @Autowired
+    private CsvService csvService;
+
     @Override
     public CrudService<Subscription, SubscriptionId> getService(){
         return this.subscriptionService;
+    }
+
+    @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String uploadSubscriptions(@RequestParam(value = "file") MultipartFile file) throws Exception{
+        try{
+            Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+                CsvToBean<CsvSubscriptions> csvToBean = new CsvToBeanBuilder<CsvSubscriptions>(reader)
+                        .withType(CsvSubscriptions.class)
+                        .withIgnoreLeadingWhiteSpace(true)
+                        .withSeparator(';')
+                        .build();
+                List<CsvSubscriptions> csvSubscriptions = csvToBean.parse();
+            this.csvService.save(csvSubscriptions);
+        } catch (Exception ex){
+            logger.info("Error during uploadSubscriptions: ", ex);
+            throw new RuntimeException("Error during uploadSubscriptions: " + ex.getMessage(), ex);
+        }
+
+        return "File uploaded successfully";
     }
 
     @GetMapping("/revenues")
