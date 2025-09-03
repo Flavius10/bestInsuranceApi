@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -98,6 +99,7 @@ public class SubscriptionCRUDControllerTest {
         subscriptionDTO.setPrice(new BigDecimal(100.00));
         MvcResult mvcResult = mockMvc.perform(post("/subscriptions")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("BACK_OFFICE"))
                         .content(om.writeValueAsString(subscriptionDTO)))
                 .andDo(print())
                 .andReturn();
@@ -118,6 +120,7 @@ public class SubscriptionCRUDControllerTest {
         mockMvc.perform(get("/subscriptions/{idCustomer}/{idPolicy}", this.subscription.getCustomer().getCustomer_id().toString()
                         , this.subscription.getPolicy().getPolicy_id().toString())
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("BACK_OFFICE"))
                         .queryParam("idCustomer", this.customer.getCustomer_id().toString())
                         .queryParam("idPolicy", this.policy.getPolicy_id().toString()))
                 .andDo(print())
@@ -138,6 +141,7 @@ public class SubscriptionCRUDControllerTest {
         mockMvc.perform(put("/subscriptions/{idCustomer}/{idPolicy}", this.subscription.getCustomer().getCustomer_id().toString()
                         , this.subscription.getPolicy().getPolicy_id().toString())
                         .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("BACK_OFFICE"))
                         .queryParam("idCustomer", this.customer.getCustomer_id().toString())
                         .queryParam("idPolicy", this.policy.getPolicy_id().toString())
                         .content(om.writeValueAsString(subscriptionDTO)));
@@ -159,6 +163,7 @@ public class SubscriptionCRUDControllerTest {
         mockMvc.perform(delete("/subscriptions/{idCustomer}/{idPolicy}", subscription1.getCustomer().getCustomer_id().toString()
                         , subscription1.getPolicy().getPoliciesCoverages().toString())
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("BACK_OFFICE"))
                         .queryParam("idCustomer", customer.getCustomer_id().toString())
                         .queryParam("idPolicy", testPolicy.getPolicy_id().toString()))
                 .andDo(print());

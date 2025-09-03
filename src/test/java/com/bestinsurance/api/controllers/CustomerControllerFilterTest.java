@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -119,6 +120,7 @@ public class CustomerControllerFilterTest extends AbstractCustomerWithAssociatio
             /// AICI TREBUIE SA PUI DE FIECARE DATA CATE O VALOARE, NU POATE FI NULL
             MvcResult mvcResult = mockMvc.perform(get("/customers")
                             .contentType(MediaType.APPLICATION_JSON)
+                            .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("BACK_OFFICE"))
                             .queryParam(CustomerController.NAME , name)
                             .queryParam(CustomerController.SURNAME, surname)
                             .queryParam(CustomerController.EMAIL, email)

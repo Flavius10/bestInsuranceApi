@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.FileInputStream;
@@ -60,7 +61,8 @@ public class CsvLoadControllerTest extends AbstractPolicyInitializedTest {
         ClassPathResource res = new ClassPathResource("customers_dummy.csv");
         MockMultipartFile multipartFile = new MockMultipartFile("file", new FileInputStream(res.getFile()));
         mockMvc.perform(multipart("/subscriptions/upload")
-                        .file(multipartFile));
+                        .file(multipartFile)
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")));
         Iterable<Customer> all = customerRepository.findAll();
         List<Customer> customers = new ArrayList<>();
         all.forEach(customers::add);

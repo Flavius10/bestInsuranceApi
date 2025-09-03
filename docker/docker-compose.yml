@@ -20,6 +20,7 @@ services:
       - SPRINGDOC_API_DOCS_VERSION=OPENAPI_3_0
       - DATALOADER_LOADSAMPLE=true
       - EVENTLISTENER_QUEUE_NAME=subscriptionLogQueue
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://127.0.0.1:9090
 
   db:
     image: 'postgres:15.4-alpine'
@@ -30,3 +31,13 @@ services:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
       - POSTGRES_DB=compose-postgres
+
+  oauth:
+    image: 'oauth2server:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile.oauth2TestServer
+    container_name: oauth
+    hostname: auth-server
+    ports:
+      - '9090:9090'
