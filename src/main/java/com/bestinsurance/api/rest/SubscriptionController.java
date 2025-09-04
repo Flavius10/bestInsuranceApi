@@ -19,6 +19,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/subscriptions")
+@SecurityRequirement(name = "security_auth")
 public class SubscriptionController
         extends AbstractCrudController<SubscriptionCreation, SubscriptionUpdate, SubscriptionView, Subscription, SubscriptionId>{
 

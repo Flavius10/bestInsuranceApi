@@ -11,6 +11,7 @@ import com.bestinsurance.api.services.PoliciesService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/policies")
+@SecurityRequirement(name = "security_auth")
 public class PolicyController extends AbstractSimpleIdCrudController<PolicyCreation, PolicyUpdate, PolicyView, Policy>{
 
     private static final Logger logger = LoggerFactory.getLogger(PolicyController.class);

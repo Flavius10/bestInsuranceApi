@@ -7,6 +7,9 @@ import com.bestinsurance.api.dto.coverage.CoverageView;
 import com.bestinsurance.api.dto.mappers.DTOMapper;
 import com.bestinsurance.api.services.CoverageService;
 import com.bestinsurance.api.services.CrudService;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/coverages")
+@SecurityRequirement(name = "security_auth")
 public class CoverageController extends AbstractSimpleIdCrudController<CoverageCreation, CoverageUpdate, CoverageView, Coverage>{
     @Autowired
     private CoverageService coverageService;
