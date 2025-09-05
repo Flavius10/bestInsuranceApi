@@ -21,11 +21,14 @@ services:
       - BPL_DEBUG_SUSPEND=false
         #FOARTE IMPORTANT PENTRU SWAGGER-UI
       - SPRINGDOC_API_DOCS_VERSION=OPENAPI_3_0
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9090
+        #Asta e pentru SampleDataLoader
+      - DATALOADER_LOADSAMPLE=true
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://oauth:9090
       - SPRINGDOC_SWAGGER_UI_OAUTH_CLIENTID=api-client
       - SPRINGDOC_SWAGGER_UI_OAUTH_CLIENTSECRET=secret
-      - SPRINGDOC_OAUTHFLOW_AUTHORIZATIONURL=http://auth-server:9090/oauth2/authorize
-      - SPRINGDOC_OAUTHFLOW_TOKENURL=http://auth-server:9090/oauth2/token
+      - SPRINGDOC_OAUTHFLOW_AUTHORIZATIONURL=http://127.0.0.1:9090/oauth2/authorize
+      - SPRINGDOC_OAUTHFLOW_TOKENURL=http://127.0.0.1:9090/oauth2/token
+      - SPRINGDOC_SWAGGER_UI_OAUTH_REDIRECT_URL=http://127.0.0.1:8080/swagger-ui/oauth2-redirect.html
 
   oauth:
     image: 'oauth2server:latest'
@@ -36,6 +39,10 @@ services:
     hostname: auth-server
     ports:
       - '9090:9090'
+    environment:
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_OAUTH2=DEBUG
 
   db:
     image: 'postgres:15.4-alpine'

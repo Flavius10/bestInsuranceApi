@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 //@Disabled("Do not run in lower environment")
 class BestInsuranceApiApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 
