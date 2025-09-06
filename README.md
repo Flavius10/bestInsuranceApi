@@ -76,6 +76,8 @@ The project will start all required containers (including the database)
 
 and load the application.
 
+Note: To enable OAuth2 security, BestInsuranceApi depends on OAuth2TestServer.
+You must manually copy the generated .war file from OAuth2TestServer into the BestInsuranceApi project.
 
 
 ------------------------------------------------------------------------
