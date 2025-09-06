@@ -54,7 +54,7 @@ You can start the application using the provided scripts:
 
 &nbsp;   ./run\_maven.sh
 
-&nbsp;   # or
+&nbsp;   or
 
 &nbsp;   ./run\_gradle.sh
 
@@ -66,7 +66,7 @@ For Windows users:
 
 &nbsp;   run\_maven.bat
 
-&nbsp;   # or
+&nbsp;   or
 
 &nbsp;   run\_gradle.bat
 
